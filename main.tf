@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "example" {
-  name     = 'tftestrg'
-  location = 'eastus'
+  name     = "tftestrg"
+  location = "eastus"
 }
