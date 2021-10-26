@@ -13,6 +13,7 @@ steps:
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: 'latest'
+  displayName: 'Terraform : INSTALLATION'
 - task: TerraformTaskV2@2
   inputs:
     provider: 'azurerm'
