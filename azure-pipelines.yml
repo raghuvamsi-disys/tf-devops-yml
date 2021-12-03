@@ -23,9 +23,8 @@ jobs:
       displayName:  MANUAL INTERVENTION
       inputs:
         notifyUsers: |
-          gowtham.ranganathan@daimler.com
-        instructions: 'Please find the file named $(deltaFileName) in the below mentioned GIT URL and commit it based on the requirement and then resume the operation.           
-        https://git.daimler.com/dtna-big-data/CSG-ADX-AUTOMATION/tree/master/Automation-pipelines/kusto-scripts/delta-scripts/$(deltaFileName)'
+          raghu.vamsi@disys.com
+        instructions: 'Please validate the deployment'
         onTimeout: 'reject'
     
  - job: Deployment
