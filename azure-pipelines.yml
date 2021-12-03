@@ -9,8 +9,30 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
-  inputs:
-    terraformVersion: 'latest'
+jobs:
+ - job: waitForValidation
+   variables:
+      - name: deltaFileName
+        value: $[ stageDependencies.GenerateDeltaScriptsStage.GenerateDeltaKustoScriptsJob.outputs['SetProdDeltaFileName.buildNumber'] ]
+   displayName: WAIT FOR EXTERNAL VALIDATION
+   pool: server
+   timeoutInMinutes: 2880 # job times out in 2 days
+    steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 2880 # task times out in 2 day
+      displayName:  MANUAL INTERVENTION
+      inputs:
+        notifyUsers: |
+          gowtham.ranganathan@daimler.com
+        instructions: 'Please find the file named $(deltaFileName) in the below mentioned GIT URL and commit it based on the requirement and then resume the operation.           
+        https://git.daimler.com/dtna-big-data/CSG-ADX-AUTOMATION/tree/master/Automation-pipelines/kusto-scripts/delta-scripts/$(deltaFileName)'
+        onTimeout: 'reject'
+    
+    - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+      inputs:
+        terraformVersion: 'latest'
+
+
+
+
   
