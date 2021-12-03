@@ -17,7 +17,7 @@ jobs:
    displayName: WAIT FOR EXTERNAL VALIDATION
    pool: server
    timeoutInMinutes: 2880 # job times out in 2 days
-    steps:
+   steps:
     - task: ManualValidation@0
       timeoutInMinutes: 2880 # task times out in 2 day
       displayName:  MANUAL INTERVENTION
