@@ -10,23 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
 - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
   inputs:
     terraformVersion: 'latest'
   
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'init'
-    backendServiceArm: 'Service Principal Connection - Raghu'
-    backendAzureRmResourceGroupName: 'dev-terraform-backend-rg'
-    backendAzureRmStorageAccountName: 'dtnaterraformbackendsa'
-    backendAzureRmContainerName: 'terraform-backend-files'
-    backendAzureRmKey: 'terraform.tfstate'
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    commandOptions: '--auto-approve'
-    environmentServiceNameAzureRM: 'Service Principal Connection - Raghu'
