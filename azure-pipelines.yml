@@ -11,9 +11,6 @@ pool:
 
 jobs:
  - job: waitForValidation
-   variables:
-      - name: deltaFileName
-        value: $[ stageDependencies.GenerateDeltaScriptsStage.GenerateDeltaKustoScriptsJob.outputs['SetProdDeltaFileName.buildNumber'] ]
    displayName: WAIT FOR EXTERNAL VALIDATION
    pool: server
    timeoutInMinutes: 2880 # job times out in 2 days
@@ -28,6 +25,8 @@ jobs:
         onTimeout: 'reject'
     
  - job: Deployment
+   displayName: Terraform Deployment
+   dependsOn: waitForValidation
    steps:
     - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
       inputs:
