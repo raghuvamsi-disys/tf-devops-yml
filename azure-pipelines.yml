@@ -8,37 +8,24 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-jobs:
-  - job: waitForValidation
-    displayName: Wait for external validation
-    pool: server
-    timeoutInMinutes: 4320 # job times out in 3 days
-    steps:
-    - task: ManualValidation@0
-      timeoutInMinutes: 1440 # task times out in 1 day
-      inputs:
-        notifyUsers: |
-          test@test.com
-          example@example.com
-        instructions: 'Please validate the build configuration and resume'
-        onTimeout: 'resume'
 
-    - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
-      inputs:
-        terraformVersion: 'latest'
-      
-    - task: TerraformTaskV2@2
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        backendServiceArm: 'Service Principal Connection - Raghu'
-        backendAzureRmResourceGroupName: 'dev-terraform-backend-rg'
-        backendAzureRmStorageAccountName: 'dtnaterraformbackendsa'
-        backendAzureRmContainerName: 'terraform-backend-files'
-        backendAzureRmKey: 'terraform.tfstate'
-    - task: TerraformTaskV2@2
-      inputs:
-        provider: 'azurerm'
-        command: 'apply'
-        commandOptions: '--auto-approve'
-        environmentServiceNameAzureRM: 'Service Principal Connection - Raghu'
+steps:
+- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+  inputs:
+    terraformVersion: 'latest'
+  
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'Service Principal Connection - Raghu'
+    backendAzureRmResourceGroupName: 'dev-terraform-backend-rg'
+    backendAzureRmStorageAccountName: 'dtnaterraformbackendsa'
+    backendAzureRmContainerName: 'terraform-backend-files'
+    backendAzureRmKey: 'terraform.tfstate'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    commandOptions: '--auto-approve'
+    environmentServiceNameAzureRM: 'Service Principal Connection - Raghu'
