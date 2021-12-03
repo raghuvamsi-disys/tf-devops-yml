@@ -10,6 +10,10 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+
+- task: ManualValidation@0
+  inputs:
+    notifyUsers: 'raghu.vamsi@disys.com'
 - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
   inputs:
     terraformVersion: 'latest'
